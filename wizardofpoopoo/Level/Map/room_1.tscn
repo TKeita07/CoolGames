@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=4 uid="uid://ckin0a2agccgb"]
+
+[ext_resource type="TileSet" uid="uid://clssey4k4w2xk" path="res://Level/Map/map2D.tres" id="1_1fx1a"]
+[ext_resource type="Script" path="res://Level/Map/room_1.gd" id="1_bv3mi"]
+[ext_resource type="Texture2D" uid="uid://4ybw0acrvadw" path="res://Ressources/Background/32rogues/tiles.png" id="2_jwlws"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cfkhk"]
+size = Vector2(94, 12.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_olm21"]
+size = Vector2(64, 33)
+
+[node name="Room1" type="Node2D"]
+script = ExtResource("1_bv3mi")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAABAAEAAgACAAcAAAABAAIAAgAAAAYAAAABAAMAAgAAAAYAAAABAAQAAgAAAAYAAAACAAEAAgAAAAYAAAACAAIAAgAAAAYAAAACAAMAAgAAAAYAAAACAAQAAgAAAAYAAAADAAEAAgAAAAYAAAADAAIAAgAAAAYAAAADAAMAAgAAAAYAAAADAAQAAgAAAAYAAAAEAAEAAgAAAAYAAAAEAAIAAgAAAAYAAAAEAAMAAgAAAAYAAAAEAAQAAgAAAAYAAAAFAAEAAgAAAAYAAAAFAAIAAgAAAAYAAAAFAAMAAgAAAAYAAAAFAAQAAgAAAAYAAAAGAAEAAgAAAAYAAAAGAAIAAgAAAAYAAAAGAAMAAgAAAAYAAAAGAAQAAgAAAAYAAAABAAUAAgAAAAYAAAABAAYAAgAAAAYAAAACAAUAAgAAAAYAAAACAAYAAgAAAAYAAAADAAUAAgAAAAYAAAADAAYAAgAAAAYAAAAEAAUAAgAAAAYAAAAEAAYAAgAAAAYAAAAFAAUAAgAAAAYAAAAFAAYAAgAAAAYAAAAGAAUAAgACAAYAAAAGAAYAAgAAAAYAAAAHAAEAAgAAAAYAAAAHAAIAAgACAAYAAAAHAAMAAgAAAAYAAAAHAAQAAgAAAAYAAAAHAAUAAgAAAAYAAAAHAAYAAgAAAAYAAAAIAAEAAgAAAAYAAAAIAAIAAgAAAAYAAAAIAAMAAgAAAAYAAAAIAAQAAgAAAAYAAAAIAAUAAgAAAAYAAAAIAAYAAgACAAoAAAAJAAEAAgAAAAYAAAAJAAIAAgAAAAYAAAAJAAMAAgAAAAYAAAAJAAQAAgAAAAYAAAAJAAUAAgAAAAYAAAAJAAYAAgADAAYAAAABAAcAAgAAAAYAAAACAAcAAgAAAAYAAAADAAcAAgAAAAYAAAAEAAcAAgABAAoAAAAFAAcAAgAAAAYAAAAGAAcAAgAAAAYAAAAHAAcAAgAAAAYAAAAIAAcAAgACAAgAAAAJAAcAAgAAAAYAAAAKAAEAAgAAAAYAAAAKAAIAAgAAAAYAAAAKAAMAAgADAAYAAAAKAAQAAgAAAAYAAAAKAAUAAgACAAgAAAAKAAYAAgAAAAYAAAAKAAcAAgAAAAYAAAALAAEAAgAAAAYAAAALAAIAAgAAAAYAAAALAAMAAgAAAAYAAAALAAQAAgAAAAYAAAALAAUAAgAAAAYAAAALAAYAAgAAAAYAAAALAAcAAgAAAAYAAAAAAAAAAgAAAAIAAAAAAAEAAgAAAAIAAAAAAAIAAgAAAAIAAAAAAAMAAgAAAAIAAAAAAAQAAgAAAAIAAAAAAAUAAgAAAAIAAAAAAAYAAgAAAAIAAAAAAAcAAgAAAAIAAAAMAAAAAgAAAAIAAAAMAAEAAgAAAAIAAAAMAAIAAgAAAAIAAAAMAAMAAgAAAAIAAAAMAAQAAgAAAAIAAAAMAAUAAgAAAAIAAAAMAAYAAgAAAAIAAAAMAAcAAgAAAAIAAAABAAAAAgABAAIAAAACAAAAAgABAAIAAAADAAAAAgABAAIAAAAEAAAAAgABAAIAAAAFAAAAAgABAAIAAAAGAAAAAgABAAIAAAAHAAAAAgABAAIAAAAIAAAAAgABAAIAAAALAAAAAgABAAIAAAAAAAgAAgABAAIAAAABAAgAAgABAAIAAAACAAgAAgABAAIAAAADAAgAAgABAAIAAAAEAAgAAgABAAIAAAAHAAgAAgABAAIAAAAIAAgAAgABAAIAAAAJAAgAAgABAAIAAAAKAAgAAgABAAIAAAALAAgAAgABAAIAAAAMAAgAAgABAAIAAAA=")
+tile_set = ExtResource("1_1fx1a")
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Entree" type="Node2D" parent="Doors"]
+
+[node name="Area2D" type="Area2D" parent="Doors/Entree"]
+position = Vector2(192, 217)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Entree/Area2D"]
+shape = SubResource("RectangleShape2D_cfkhk")
+
+[node name="Entree_Door1" type="Sprite2D" parent="Doors/Entree"]
+position = Vector2(176, 272)
+texture = ExtResource("2_jwlws")
+region_enabled = true
+region_rect = Rect2(0, 512, 32, 32)
+
+[node name="Entree_Door2" type="Sprite2D" parent="Doors/Entree"]
+position = Vector2(208, 272)
+texture = ExtResource("2_jwlws")
+flip_h = true
+region_enabled = true
+region_rect = Rect2(0, 512, 32, 32)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Doors/Entree"]
+position = Vector2(170, 266)
+disable_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Entree/StaticBody2D"]
+position = Vector2(22, 6.5)
+shape = SubResource("RectangleShape2D_olm21")
+debug_color = Color(0.904455, 0.225658, 0.524931, 0.42)
+
+[node name="Sortie" type="Node2D" parent="Doors"]
+
+[node name="Sortie_Door1" type="Sprite2D" parent="Doors/Sortie"]
+position = Vector2(304, 16)
+texture = ExtResource("2_jwlws")
+region_enabled = true
+region_rect = Rect2(0, 512, 32, 32)
+
+[node name="Sortie_Door2" type="Sprite2D" parent="Doors/Sortie"]
+position = Vector2(336, 16)
+texture = ExtResource("2_jwlws")
+flip_h = true
+region_enabled = true
+region_rect = Rect2(0, 512, 32, 32)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Doors/Sortie"]
+position = Vector2(298, 9)
+disable_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Sortie/StaticBody2D"]
+position = Vector2(22, 6.5)
+shape = SubResource("RectangleShape2D_olm21")
+debug_color = Color(0.904455, 0.225658, 0.524931, 0.42)
+
+[connection signal="body_entered" from="Doors/Entree/Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dch1o1xwn8q2d"]
+
+[ext_resource type="PackedScene" uid="uid://clqso22grd7d3" path="res://Characters/Player/player.tscn" id="1_u33yn"]
+
+[sub_resource type="Environment" id="Environment_rdce2"]
+
+[node name="Main" type="Node3D"]
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.542038, 0, 0)
+size = Vector3(13.4522, 0.0750732, 22.5166)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00276279, 0.098088, -0.887657)
+operation = 2
+size = Vector3(0.639648, 0.520081, 0.514526)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Map"]
+environment = SubResource("Environment_rdce2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Map"]
+transform = Transform3D(0.971685, -0.0359435, 0.233529, -0.0391274, 0.950237, 0.30906, -0.233016, -0.309446, 0.921925, 12.9835, 8.02153, 9.79299)
+directional_shadow_mode = 1
+
+[node name="Player" parent="." instance=ExtResource("1_u33yn")]

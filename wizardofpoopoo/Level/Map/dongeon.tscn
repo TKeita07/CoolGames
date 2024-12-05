@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://boyi6p11h21yh"]
+
+[ext_resource type="Script" path="res://Level/Map/dongeon.gd" id="1_pxwom"]
+[ext_resource type="TileSet" uid="uid://clssey4k4w2xk" path="res://Level/Map/map2D.tres" id="1_tnrnp"]
+
+[node name="Dongeon" type="Node2D"]
+script = ExtResource("1_pxwom")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_tnrnp")
