@@ -7,6 +7,8 @@ var last_direction = "Down"
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
+	global_position.x = 32*10
+	global_position.y = 32*10
 	pass
 	
 func _physics_process(delta: float) -> void:

@@ -1,11 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7cgui4cwir2g"]
+[gd_scene load_steps=4 format=3 uid="uid://c7cgui4cwir2g"]
 
+[ext_resource type="Texture2D" uid="uid://bhdnchxsqu8pn" path="res://Ressources/Background/Starfield_01-1024x1024.png" id="1_7d1m8"]
 [ext_resource type="PackedScene" uid="uid://c8smtgbvff834" path="res://Level/Map/dungeon_map.tscn" id="1_r44oe"]
 [ext_resource type="PackedScene" uid="uid://clqso22grd7d3" path="res://Characters/Player/player.tscn" id="1_xuf08"]
 
 [node name="2DMain" type="Node2D"]
 
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+scale = Vector2(2, 2)
+motion_mirroring = Vector2(1024, 1024)
+
+[node name="Starfield01-1024x1024" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2(2, 2)
+texture = ExtResource("1_7d1m8")
+
 [node name="DungeonMap" parent="." instance=ExtResource("1_r44oe")]
 
 [node name="Player" parent="." instance=ExtResource("1_xuf08")]
-position = Vector2(304, 685)
+position = Vector2(8, 2)

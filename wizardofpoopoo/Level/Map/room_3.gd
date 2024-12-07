@@ -1,8 +1,9 @@
 extends Rooms
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	open_entree(true)
-	initialisation()
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	start_room()
+func _ready() -> void:
+	doors_pos[Enums.Adjacent.UP] = Vector2(5,0)
+	doors_pos[Enums.Adjacent.DOWN] =Vector2(5,11)
+	doors_pos[Enums.Adjacent.RIGHT] = Vector2(11,5)
+	doors_pos[Enums.Adjacent.LEFT] = Vector2(0,5)
+
+	initialisation()

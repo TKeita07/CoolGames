@@ -46,7 +46,11 @@ func adjecent_full():
 			return false
 	return true
 
-func set_adjacent_room(adjacent : Enums.Adjacent):
+func add_exit(adjacent : Enums.Adjacent):
+	room_scene.add_door(adjacent)
+	adjacent_rooms[adjacent] = true
+
+func add_entrance(adjacent : Enums.Adjacent):
 	var adj : Enums.Adjacent
 	match adjacent :
 		Enums.Adjacent.UP: 
@@ -58,6 +62,7 @@ func set_adjacent_room(adjacent : Enums.Adjacent):
 		Enums.Adjacent.LEFT: 
 			adj = Enums.Adjacent.RIGHT
 	
+	room_scene.add_door(adj)
 	adjacent_rooms[adj] = true
 
 func adjencent_exist(adjacent : Enums.Adjacent):
