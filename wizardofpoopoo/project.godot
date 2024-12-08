@@ -23,10 +23,15 @@ Signals="*res://Common/Signals.gd"
 
 [display]
 
-window/size/viewport_width=2048
-window/size/viewport_height=1024
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 mouse_cursor/custom_image="res://Ressources/crosshair038.png"
 mouse_cursor/custom_image_hotspot=Vector2(32, 32)
+
+[global_group]
+
+Player="The Player"
+PlayerCam=""
 
 [input]
 

@@ -1,13 +1,17 @@
 extends Node2D
 
-@onready var doors: Node2D = $Doors
-@onready var entree_doors_collision: CollisionShape2D = $Doors/Entree/StaticBody2D/CollisionShape2D
-@onready var sortie_doors_collision: CollisionShape2D = $Doors/Sortie/StaticBody2D/CollisionShape2D
-@onready var entree_detection: CollisionShape2D = $Doors/Entree/Area2D/CollisionShape2D
-@onready var tile_map: TileMapLayer = $TileMaps/RoomLayer
+@onready var doors: Node2D =  %Doors
+@onready var entree_doors_collision: CollisionShape2D = %DoorsCollision
+@onready var entree_detection: CollisionShape2D = %InsideCollision
+@onready var tile_map: TileMapLayer = %RoomTiles
+@onready var room_cam: Camera2D = %RoomCam
 
+@onready var player = get_tree().get_nodes_in_group("Player")[0]  
+@onready var player_cam = get_tree().get_nodes_in_group("PlayerCam")[0] 
+ 
 const ENTREE = preload("res://Level/Map/entree.tscn")
-var player_in_room : bool
+var player_in_room : bool = false
+var room_cleared : bool = false
 
 var doors_pos = {
 	Enums.Adjacent.UP : Vector2(0,0),
@@ -15,15 +19,34 @@ var doors_pos = {
 	Enums.Adjacent.RIGHT : Vector2(0,0),
 	Enums.Adjacent.LEFT : Vector2(0,0),
 }
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if Input.is_action_pressed("X") and player_in_room:
-		room_end()
 
+var map_pos : Vector2 = Vector2(0, 0)
+var grid_size : Vector2 = Vector2(12, 12)
+var tile_size : int = 32
+var center_pos : Vector2 = Vector2(int(grid_size.x/2), int(grid_size.y/2)) * tile_size
+
+func _process(delta: float) -> void:
+	if player_in_room : 
+		if Input.is_action_pressed("X"):
+			room_end()
+		if Input.is_action_pressed("Q"):
+			change_camera()
+		
+
+		#var player_cam = player.get_node("%PlayerCam")
+		#player_cam.global_position = player_cam.global_position.lerp(center_pos, delta * 0.4)
+		
 func initialisation():
 	global_position.x = global_position.x + (4*32)
 	global_position.y = global_position.y + (4*32)
-
+	
+	#room_cam.global_position = center_pos + Vector2(4*32,4*32)
+	
+func change_camera():
+	player_cam.lock_to_position(global_position + center_pos)
+	pass
+	#if room_cam:
+		#room_cam.make_current()
 
 
 func add_door(adj : Enums.Adjacent):
@@ -68,15 +91,24 @@ func add_door(adj : Enums.Adjacent):
 
 	new_door.rotation_degrees = rotation
 	
+func room_exited():
+	player_in_room = false
+	player_cam.follow_player()
+	
 
 func start_room():
 	player_in_room = true
-	for door in doors.get_children():
-		door.open_entree(false)
-		door.disable_detection()
+	if not room_cleared:
+		for door in doors.get_children():
+			door.open_entree(false)
+			door.disable_detection(true)
+	change_camera()
 
 func room_end():
-	player_in_room = false
+	room_cleared = true
 	for door in doors.get_children():
 		door.open_entree(true)
-		door.disable_detection()
+		door.disable_detection(false)
+
+func set_map_pose(mpos : Vector2):
+	map_pos = mpos

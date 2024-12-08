@@ -7,25 +7,16 @@
 radius = 6.0
 height = 18.0
 
-[node name="Player" type="Node2D"]
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Player"]]
 scale = Vector2(2, 2)
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_q8j0g")
 
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-zoom = Vector2(3, 3)
-
-[node name="SortiePose" type="Marker2D" parent="CharacterBody2D/Camera2D"]
-position = Vector2(416, 16)
-gizmo_extents = 16.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_nae1n")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_vpwoo")
 animation = &"Idle_Up"
 autoplay = "Idle_Down"

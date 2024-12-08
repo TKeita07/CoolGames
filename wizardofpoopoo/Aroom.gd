@@ -30,7 +30,6 @@ func init(room_type : Enums.RoomType, pos : Vector2):
 	map_pos = pos
 	var room_path : String = Enums.RoomScenDict[room_type]
 	var room = load(room_path)
-	
 	room_scene = room.instantiate()
 	
 	room_scene.global_position.x += (map_pos.x * decallage)

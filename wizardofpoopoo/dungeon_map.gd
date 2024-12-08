@@ -5,7 +5,7 @@ extends Node2D
 
 var room_array = []
 var nbr_rooms = 25
-var ground_atlas = Vector2(0, 11)
+var ground_atlas = Vector2(0, 12)
 var wall_atlas = Vector2(2, 3)
 
 # Called when the node enters the scene tree for the first time.
@@ -27,8 +27,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_released("H"):
 		generate_dungeon()
 		pass
-	if Input.is_action_just_released("Q"):
-		pass
+
 
 func generate_dungeon():
 	var n = 0

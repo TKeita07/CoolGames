@@ -5,12 +5,17 @@ const SPEED = 300.0
 var rotation_speed = 1.5
 var last_direction = "Down"
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var camera_2d: Camera2D = %PlayerCam
 
 func _ready() -> void:
 	global_position.x = 32*10
 	global_position.y = 32*10
 	pass
-	
+
+func change_camera():
+	print("aa")
+	camera_2d.make_current()
+
 func _physics_process(delta: float) -> void:
 	
 	var direction = Input.get_vector("LEFT", "RIGHT", "UP", "DOWN")

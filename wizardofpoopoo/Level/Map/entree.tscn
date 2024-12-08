@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ds8sburw1ixoi"]
+[gd_scene load_steps=5 format=3 uid="uid://ds8sburw1ixoi"]
 
 [ext_resource type="Script" path="res://Level/Map/entree.gd" id="1_hm7bh"]
 [ext_resource type="Texture2D" uid="uid://4ybw0acrvadw" path="res://Ressources/Background/32rogues/tiles.png" id="1_vlrf2"]
@@ -6,14 +6,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_olm21"]
 size = Vector2(64, 33)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kssxj"]
+size = Vector2(124, 12)
+
 [node name="Entree" type="Node2D"]
 script = ExtResource("1_hm7bh")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="InsideArea" type="Area2D" parent="."]
 position = Vector2(0, -57)
 collision_layer = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+[node name="InsideCollision" type="CollisionPolygon2D" parent="InsideArea"]
+unique_name_in_owner = true
 polygon = PackedVector2Array(-60, 30, -45, 30, -45, 5, 45, 5, 45, 30, 60, 30, 60, -5, -60, -5)
 
 [node name="Entree_Door1" type="Sprite2D" parent="."]
@@ -29,12 +33,21 @@ flip_h = true
 region_enabled = true
 region_rect = Rect2(0, 512, 32, 32)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticDoors" type="StaticBody2D" parent="."]
 disable_mode = 1
 collision_layer = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="DoorsCollision" type="CollisionShape2D" parent="StaticDoors"]
+unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_olm21")
 debug_color = Color(0.904455, 0.225658, 0.524931, 0.42)
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="Area2D_Out" type="Area2D" parent="."]
+position = Vector2(0, 57)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_Out"]
+shape = SubResource("RectangleShape2D_kssxj")
+
+[connection signal="body_entered" from="InsideArea" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D_Out" to="." method="_on_area_2d_out_body_entered"]

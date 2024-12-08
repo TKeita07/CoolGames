@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdmw1av7fhe2b"]
+
+[ext_resource type="PackedScene" uid="uid://ctw7kpyih3ku7" path="res://Level/Map/default_room.tscn" id="1_ba5o1"]
+[ext_resource type="Script" path="res://Level/Map/room_2.gd" id="3_y55po"]
+[ext_resource type="Script" path="res://Level/Map/room_3.gd" id="4_3jj8x"]
+[ext_resource type="Script" path="res://Level/Map/room_4.gd" id="5_fp3n4"]
+[ext_resource type="Script" path="res://Level/Map/room_5.gd" id="6_6h5v8"]
+
+[node name="Rooms" type="Node2D"]
+
+[node name="Room1" parent="." instance=ExtResource("1_ba5o1")]
+
+[node name="Room2" parent="." instance=ExtResource("1_ba5o1")]
+script = ExtResource("3_y55po")
+
+[node name="Room3" parent="." instance=ExtResource("1_ba5o1")]
+script = ExtResource("4_3jj8x")
+
+[node name="Room4" parent="." instance=ExtResource("1_ba5o1")]
+script = ExtResource("5_fp3n4")
+
+[node name="Room5" parent="." instance=ExtResource("1_ba5o1")]
+script = ExtResource("6_6h5v8")
+
+[editable path="Room1"]
+[editable path="Room2"]
+[editable path="Room3"]
+[editable path="Room4"]
+[editable path="Room5"]
