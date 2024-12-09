@@ -5,3 +5,6 @@
 
 [node name="Room1" instance=ExtResource("2_x1pta")]
 script = ExtResource("1_bv3mi")
+
+[node name="SpawnArea" parent="." index="3"]
+polygon = PackedVector2Array(48, 48, 336, 48, 336, 336, 48, 336)

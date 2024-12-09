@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3u0mm6h684lt"]
+
+[ext_resource type="Texture2D" uid="uid://hmidcloulysq" path="res://Ressources/Background/32rogues/monsters.png" id="1_b63fh"]
+[ext_resource type="Script" path="res://Characters/Enemy/enemy.gd" id="1_noffa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3m82x"]
+radius = 11.0454
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 4
+motion_mode = 1
+script = ExtResource("1_noffa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, -7)
+texture = ExtResource("1_b63fh")
+region_enabled = true
+region_rect = Rect2(32, 65, 31, 31)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3m82x")

@@ -5,13 +5,16 @@ extends Node2D
 @onready var entree_detection: CollisionShape2D = %InsideCollision
 @onready var tile_map: TileMapLayer = %RoomTiles
 @onready var room_cam: Camera2D = %RoomCam
+@onready var enemies: Node2D = %Enemies
+@onready var spawn_area: Polygon2D = %SpawnArea
 
-@onready var player = get_tree().get_nodes_in_group("Player")[0]  
-@onready var player_cam = get_tree().get_nodes_in_group("PlayerCam")[0] 
- 
+@onready var player_cam
+
+const ENEMY = preload("res://Characters/Enemy/enemy.tscn")
 const ENTREE = preload("res://Level/Map/entree.tscn")
 var player_in_room : bool = false
 var room_cleared : bool = false
+var enemy_nbr = 4
 
 var doors_pos = {
 	Enums.Adjacent.UP : Vector2(0,0),
@@ -27,19 +30,22 @@ var center_pos : Vector2 = Vector2(int(grid_size.x/2), int(grid_size.y/2)) * til
 
 func _process(delta: float) -> void:
 	if player_in_room : 
-		if Input.is_action_pressed("X"):
+		if Input.is_action_just_released("X"):
 			room_end()
-		if Input.is_action_pressed("Q"):
-			change_camera()
+		if Input.is_action_just_released("Q"):
+			spawn_enemies()
 		
-
+		if enemies.get_child_count() <= 0:
+			room_end()
 		#var player_cam = player.get_node("%PlayerCam")
 		#player_cam.global_position = player_cam.global_position.lerp(center_pos, delta * 0.4)
 		
 func initialisation():
+	player_cam = get_tree().get_nodes_in_group("PlayerCam")[0] 
 	global_position.x = global_position.x + (4*32)
 	global_position.y = global_position.y + (4*32)
 	
+	spawn_enemies()
 	#room_cam.global_position = center_pos + Vector2(4*32,4*32)
 	
 func change_camera():
@@ -112,3 +118,20 @@ func room_end():
 
 func set_map_pose(mpos : Vector2):
 	map_pos = mpos
+
+
+func spawn_enemies():
+	var n = 0
+	while n < enemy_nbr:
+		var lenght_X = grid_size.x * tile_size
+		var lenght_Y = grid_size.y * tile_size
+		var x = randi_range(center_pos.x - int(lenght_X/2), center_pos.x + int(lenght_X/2))
+		var y = randi_range(center_pos.y - int(lenght_Y/2), center_pos.y + int(lenght_Y/2))
+		var rand_point = Vector2(x,y)
+
+		if Geometry2D.is_point_in_polygon(rand_point, spawn_area.polygon):
+			var enemy = ENEMY.instantiate()
+			
+			enemies.add_child(enemy)
+			enemy.global_position = global_position+ rand_point
+			n += 1

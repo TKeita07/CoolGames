@@ -19,6 +19,11 @@ tile_set = ExtResource("1_131v4")
 [node name="Doors" type="Node2D" parent="."]
 unique_name_in_owner = true
 
-[node name="RoomCam" type="Camera2D" parent="."]
+[node name="Enemies" type="Node2D" parent="."]
 unique_name_in_owner = true
-zoom = Vector2(2.5, 2.5)
+
+[node name="SpawnArea" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+visible = false
+color = Color(1, 1, 1, 0.32549)
+polygon = PackedVector2Array(160, 160, 224, 160, 224, 224, 160, 224)

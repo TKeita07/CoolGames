@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://pute84pr7qp3"]
+
+[ext_resource type="Script" path="res://Characters/Spells/flames.gd" id="1_jwpmt"]
+[ext_resource type="Material" uid="uid://h0tfa1olrmem" path="res://Characters/Spells/flames.tres" id="2_803d3"]
+
+[node name="Flames" type="Node2D"]
+position = Vector2(243, 177)
+script = ExtResource("1_jwpmt")
+
+[node name="FlamesGPU" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+amount = 300
+process_material = ExtResource("2_803d3")
+
+[node name="Areas" type="Node2D" parent="."]
