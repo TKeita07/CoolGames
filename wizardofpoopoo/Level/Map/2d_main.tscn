@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7cgui4cwir2g"]
+[gd_scene load_steps=7 format=3 uid="uid://c7cgui4cwir2g"]
 
 [ext_resource type="Texture2D" uid="uid://bhdnchxsqu8pn" path="res://Ressources/Background/Starfield_01-1024x1024.png" id="1_7d1m8"]
 [ext_resource type="PackedScene" uid="uid://c8smtgbvff834" path="res://Level/Map/dungeon_map.tscn" id="1_r44oe"]
 [ext_resource type="PackedScene" uid="uid://clqso22grd7d3" path="res://Characters/Player/player.tscn" id="1_xuf08"]
+[ext_resource type="Script" path="res://Level/Map/2d_main.gd" id="2_3uihu"]
 [ext_resource type="Script" path="res://Characters/Player/player_cam.gd" id="4_8n1ri"]
+[ext_resource type="Material" uid="uid://bodb8iw8xr37c" path="res://Level/Map/coolshader.tres" id="6_hjta3"]
 
 [node name="2DMain" type="Node2D"]
+script = ExtResource("2_3uihu")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -28,3 +31,16 @@ zoom = Vector2(2.5, 2.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("4_8n1ri")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ShaderRect" type="ColorRect" parent="CanvasLayer"]
+unique_name_in_owner = true
+material = ExtResource("6_hjta3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2

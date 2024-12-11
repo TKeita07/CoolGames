@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bodb8iw8xr37c"]
+
+[ext_resource type="Shader" path="res://Level/Map/2d_main.gdshader" id="1_xbuq2"]
+
+[resource]
+shader = ExtResource("1_xbuq2")
+shader_parameter/activate = false

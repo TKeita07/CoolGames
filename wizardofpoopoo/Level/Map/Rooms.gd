@@ -7,7 +7,6 @@ extends Node2D
 @onready var room_cam: Camera2D = %RoomCam
 @onready var enemies: Node2D = %Enemies
 @onready var spawn_area: Polygon2D = %SpawnArea
-
 @onready var player_cam
 
 const ENEMY = preload("res://Characters/Enemy/enemy.tscn")
@@ -28,12 +27,13 @@ var grid_size : Vector2 = Vector2(12, 12)
 var tile_size : int = 32
 var center_pos : Vector2 = Vector2(int(grid_size.x/2), int(grid_size.y/2)) * tile_size
 
+
 func _process(delta: float) -> void:
 	if player_in_room : 
 		if Input.is_action_just_released("X"):
 			room_end()
 		if Input.is_action_just_released("Q"):
-			spawn_enemies()
+			pass
 		
 		if enemies.get_child_count() <= 0:
 			room_end()
@@ -101,6 +101,9 @@ func room_exited():
 	player_in_room = false
 	player_cam.follow_player()
 	
+	Signals.activate_shader.emit(true)
+
+	
 
 func start_room():
 	player_in_room = true
@@ -109,6 +112,8 @@ func start_room():
 			door.open_entree(false)
 			door.disable_detection(true)
 	change_camera()
+	
+	Signals.activate_shader.emit(false)
 
 func room_end():
 	room_cleared = true

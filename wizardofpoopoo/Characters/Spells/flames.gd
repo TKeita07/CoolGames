@@ -24,8 +24,9 @@ func _process(delta: float) -> void:
 
 	
 func spawn_flames():
-	var mouse_position = get_global_mouse_position()
-	var direction = flames_gpu.global_position.direction_to(mouse_position)
+	var direction = flames_gpu.global_position.direction_to(get_global_mouse_position())
+	if player:
+		direction = player.get_aim_direction(flames_gpu.global_position)
 	
 	var flaming_area = FLAMING_AREAM.instantiate()
 	areas.add_child(flaming_area)
@@ -37,7 +38,8 @@ func spawn_flames():
 		flaming_area.global_position = flames_gpu.global_position
 	
 	
-	flaming_area.look_at(mouse_position)
-	flames_gpu.look_at(mouse_position)
+	flaming_area.rotation = direction.angle()
+	flames_gpu.rotation = direction.angle()
+	#flames_gpu.look_at(mouse_position)
 	
 	flaming_area.set_direction(direction)
