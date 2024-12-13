@@ -5,8 +5,8 @@ extends Node2D
 
 var room_array = []
 var nbr_rooms = 25
-var ground_atlas = Vector2(0, 12)
-var wall_atlas = Vector2(2, 3)
+var ground_atlas = Vector2i(0, 12)
+var wall_atlas = Vector2i(2, 3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,8 +18,10 @@ func _ready() -> void:
 
 func generate_first_room():
 	var first_room = Aroom.new()
-	first_room.init(0, Vector2(0,0))
+	first_room.init(0, Vector2i(0,0))
 	map_list.add_child(first_room.room_scene)
+	
+	first_room.room_scene.initialisation()
 	room_array.append(first_room)
 
 
@@ -35,7 +37,7 @@ func generate_dungeon():
 		var random_room = room_array.pick_random()
 
 		var radom_adj = randi() % 4
-		var nex_pos = Vector2(0,0)
+		var nex_pos = Vector2i(0,0)
 		var solution_found = false
 		for i in range(4):
 			var adj = (radom_adj + i) % 4 
@@ -63,18 +65,20 @@ func get_adj_inv(adjacent):
 	return adj
 
 func add_hallway(room, new_room, adj):
-	var r_door_pos = room.room_scene.doors_pos[adj]
-	var nr_door_pos = new_room.room_scene.doors_pos[get_adj_inv(adj)]
-	
+	var r_door_pos = room.room_scene.get_door_pose_from_list(adj)
+	var nr_door_pos = new_room.room_scene.get_door_pose_from_list(get_adj_inv(adj))
+	if not r_door_pos or not nr_door_pos:
+		print("ERROR : no door available for HALLWAY")
+		return
 	var r_pos = room.get_pos()
 	var nr_pos = new_room.get_pos()
 	# Decallage salles
-	var p_d = (r_pos * Vector2(20,20)) + r_door_pos
-	var p_f = (nr_pos * Vector2(20,20)) + nr_door_pos
+	var p_d = (r_pos * Vector2i(20,20)) + r_door_pos
+	var p_f = (nr_pos * Vector2i(20,20)) + nr_door_pos
 
 	# Ajout espace de couloirs
-	p_d += Vector2(4,4)
-	p_f += Vector2(4,4)
+	p_d += Vector2i(4,4)
+	p_f += Vector2i(4,4)
 
 	if adj == Enums.Adjacent.UP or adj == Enums.Adjacent.DOWN:
 		generate_hallway_verticale(p_d, p_f)
@@ -96,22 +100,22 @@ func generate_hallway_verticale(pos_room1, pos_room2):
 	var y_min = min(pos_debut.y, pos_fin.y)
 	for i in range(x_min-1, x_min + dist_x + 3):
 		for j in range(y_min+1, y_min + dist_y):
-			tile_map.set_cell(Vector2(i, j), 2, wall_atlas)
+			tile_map.set_cell(Vector2i(i, j), 2, wall_atlas)
 		
-	var pos_d = Vector2(pos_debut.x, pos_debut.y+1)
-	var pos_f = Vector2(pos_fin.x, pos_fin.y-1)
+	var pos_d = Vector2i(pos_debut.x, pos_debut.y+1)
+	var pos_f = Vector2i(pos_fin.x, pos_fin.y-1)
 	
 	for i in range(int(dist_y/2 + 1)):
-		tile_map.set_cell(Vector2(pos_d.x, pos_d.y+i), 2, ground_atlas)
-		tile_map.set_cell(Vector2(pos_d.x+1, pos_d.y+i), 2, ground_atlas)
+		tile_map.set_cell(Vector2i(pos_d.x, pos_d.y+i), 2, ground_atlas)
+		tile_map.set_cell(Vector2i(pos_d.x+1, pos_d.y+i), 2, ground_atlas)
 		
-		tile_map.set_cell(Vector2(pos_f.x, pos_f.y-i), 2, ground_atlas)
-		tile_map.set_cell(Vector2(pos_f.x+1, pos_f.y-i), 2, ground_atlas)
+		tile_map.set_cell(Vector2i(pos_f.x, pos_f.y-i), 2, ground_atlas)
+		tile_map.set_cell(Vector2i(pos_f.x+1, pos_f.y-i), 2, ground_atlas)
 	
-	pos_d = Vector2(x_min+2, pos_debut.y+int(dist_y/2))
+	pos_d = Vector2i(x_min+2, pos_debut.y+int(dist_y/2))
 	for i in range(int(dist_x)):
-		tile_map.set_cell(Vector2(pos_d.x+i, pos_d.y), 2, ground_atlas)
-		tile_map.set_cell(Vector2(pos_d.x+i, pos_d.y+1), 2,ground_atlas)
+		tile_map.set_cell(Vector2i(pos_d.x+i, pos_d.y), 2, ground_atlas)
+		tile_map.set_cell(Vector2i(pos_d.x+i, pos_d.y+1), 2,ground_atlas)
 
 
 func generate_hallway_horizontale(pos_room1, pos_room2):
@@ -172,6 +176,7 @@ func add_room(pos, adj):
 	var room = Aroom.new()
 	room.init_random(pos)
 	map_list.add_child(room.room_scene)
+	room.room_scene.initialisation()
 	room.add_entrance(adj)
 	
 	room_array.append(room)

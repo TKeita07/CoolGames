@@ -1,10 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvrb5e363745u"]
+[gd_scene load_steps=8 format=3 uid="uid://cvrb5e363745u"]
 
-[ext_resource type="Script" path="res://Level/Map/room_1.gd" id="1_bv3mi"]
+[ext_resource type="Script" path="res://Level/Map/Rooms.gd" id="2_jgxjw"]
 [ext_resource type="PackedScene" uid="uid://ctw7kpyih3ku7" path="res://Level/Map/default_room.tscn" id="2_x1pta"]
+[ext_resource type="Script" path="res://Common/DoorResource.gd" id="3_02gpr"]
+
+[sub_resource type="Resource" id="Resource_7deam"]
+script = ExtResource("3_02gpr")
+_side = 0
+_pose = Vector2i(5, 0)
+
+[sub_resource type="Resource" id="Resource_26s57"]
+script = ExtResource("3_02gpr")
+_side = 1
+_pose = Vector2i(5, 11)
+
+[sub_resource type="Resource" id="Resource_fm8hv"]
+script = ExtResource("3_02gpr")
+_side = 2
+_pose = Vector2i(11, 5)
+
+[sub_resource type="Resource" id="Resource_t8fta"]
+script = ExtResource("3_02gpr")
+_side = 3
+_pose = Vector2i(0, 5)
 
 [node name="Room1" instance=ExtResource("2_x1pta")]
-script = ExtResource("1_bv3mi")
+script = ExtResource("2_jgxjw")
+doors_pos_array = Array[ExtResource("3_02gpr")]([SubResource("Resource_7deam"), SubResource("Resource_26s57"), SubResource("Resource_fm8hv"), SubResource("Resource_t8fta")])
 
 [node name="SpawnArea" parent="." index="3"]
 polygon = PackedVector2Array(48, 48, 336, 48, 336, 336, 48, 336)

@@ -22,7 +22,6 @@ func _ready() -> void:
 	pass
 
 func change_camera():
-	print("aa")
 	camera_2d.make_current()
 
 func _physics_process(delta: float) -> void:
@@ -31,7 +30,7 @@ func _physics_process(delta: float) -> void:
 	var direction_gamepad = Input.get_vector("AIM_LEFT", "AIM_RIGHT", "AIM_UP", "AIM_DOWN")
 	
 	Input.warp_mouse(get_viewport().get_mouse_position()+ direction_gamepad* 2000.0*delta)
-	
+	velocity = direction * SPEED
 	var animation_name = "Move_"
 	if velocity[0] == 0 and velocity[1] == 0:
 		animation_name = "Idle_"
@@ -59,7 +58,7 @@ func _physics_process(delta: float) -> void:
 		dash_duration.start()
 		dash_direction  = direction
 	
-	velocity = direction * SPEED + dash_direction * dash_vel
+	velocity += dash_direction * dash_vel
 
 	move_and_slide()
 

@@ -1,5 +1,13 @@
 extends Node2D
 
+@export var doors_pos_array : Array[DoorResource]
+
+ #[
+	#DoorResource.new(Enums.Adjacent.UP),
+	#DoorResource.new(Enums.Adjacent.DOWN), 
+	#DoorResource.new(Enums.Adjacent.RIGHT),
+	#DoorResource.new(Enums.Adjacent.LEFT)]
+
 @onready var doors: Node2D =  %Doors
 @onready var entree_doors_collision: CollisionShape2D = %DoorsCollision
 @onready var entree_detection: CollisionShape2D = %InsideCollision
@@ -15,18 +23,12 @@ var player_in_room : bool = false
 var room_cleared : bool = false
 var enemy_nbr = 4
 
-var doors_pos = {
-	Enums.Adjacent.UP : Vector2(0,0),
-	Enums.Adjacent.DOWN : Vector2(0,0),
-	Enums.Adjacent.RIGHT : Vector2(0,0),
-	Enums.Adjacent.LEFT : Vector2(0,0),
-}
-
-var map_pos : Vector2 = Vector2(0, 0)
-var grid_size : Vector2 = Vector2(12, 12)
+var map_pos : Vector2i = Vector2i(0, 0)
+var grid_size : Vector2i = Vector2i(12, 12)
 var tile_size : int = 32
-var center_pos : Vector2 = Vector2(int(grid_size.x/2), int(grid_size.y/2)) * tile_size
+var center_pos : Vector2i = Vector2i(int(grid_size.x/2), int(grid_size.y/2)) * tile_size
 
+var tmp = "aa"
 
 func _process(delta: float) -> void:
 	if player_in_room : 
@@ -49,15 +51,18 @@ func initialisation():
 	#room_cam.global_position = center_pos + Vector2(4*32,4*32)
 	
 func change_camera():
-	player_cam.lock_to_position(global_position + center_pos)
+	player_cam.lock_to_position(global_position + Vector2(center_pos))
 	pass
 	#if room_cam:
 		#room_cam.make_current()
 
 
 func add_door(adj : Enums.Adjacent):
+	var pos = get_door_pose_from_list(adj)
+	if not pos:
+		print("ERROR : no door available - " + tmp)
+		return
 	var new_door = ENTREE.instantiate()
-	var pos = doors_pos[adj]
 	var rotation = 0
 	new_door.global_position.x = (pos.x * 32)
 	new_door.global_position.y = (pos.y * 32)
@@ -71,29 +76,29 @@ func add_door(adj : Enums.Adjacent):
 			rotation = 180
 			new_door.global_position.x += 32
 			new_door.global_position.y += 16
-			tile_map.set_cell(pos, 2, Vector2(0, 6))
-			tile_map.set_cell(Vector2(pos.x+1, pos.y), 2, Vector2(0, 6))
+			tile_map.set_cell(pos, 2, Vector2i(0, 6))
+			tile_map.set_cell(Vector2i(pos.x+1, pos.y), 2, Vector2i(0, 6))
 			
 		Enums.Adjacent.DOWN: 
 			rotation = 0
 			new_door.global_position.x += 32
 			new_door.global_position.y += 16
-			tile_map.set_cell(pos, 2, Vector2(0, 6))
-			tile_map.set_cell(Vector2(pos.x+1, pos.y), 2, Vector2(0, 6))
+			tile_map.set_cell(pos, 2, Vector2i(0, 6))
+			tile_map.set_cell(Vector2i(pos.x+1, pos.y), 2, Vector2i(0, 6))
 			
 		Enums.Adjacent.RIGHT: 
 			rotation = -90
 			new_door.global_position.x += 16
 			new_door.global_position.y += 32
-			tile_map.set_cell(pos, 2, Vector2(0, 6))
-			tile_map.set_cell(Vector2(pos.x, pos.y+1), 2, Vector2(0, 6))
+			tile_map.set_cell(pos, 2, Vector2i(0, 6))
+			tile_map.set_cell(Vector2i(pos.x, pos.y+1), 2, Vector2i(0, 6))
 			
 		Enums.Adjacent.LEFT: 
 			rotation = 90
 			new_door.global_position.x += 16
 			new_door.global_position.y += 32
-			tile_map.set_cell(pos, 2, Vector2(0, 6))
-			tile_map.set_cell(Vector2(pos.x, pos.y+1), 2, Vector2(0, 6))
+			tile_map.set_cell(pos, 2, Vector2i(0, 6))
+			tile_map.set_cell(Vector2i(pos.x, pos.y+1), 2, Vector2i(0, 6))
 
 	new_door.rotation_degrees = rotation
 	
@@ -121,9 +126,16 @@ func room_end():
 		door.open_entree(true)
 		door.disable_detection(false)
 
-func set_map_pose(mpos : Vector2):
+func set_map_pose(mpos : Vector2i):
 	map_pos = mpos
 
+func get_door_pose_from_list(adj : Enums.Adjacent):
+	var door_pose = null
+	for door_res in doors_pos_array:
+		if door_res.get_side() == adj:
+			door_pose = door_res.get_pose()
+
+	return door_pose
 
 func spawn_enemies():
 	var n = 0

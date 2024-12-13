@@ -5,9 +5,9 @@ class_name Aroom
 var decallage = 32 * 20
 
 
-var room_scene : Rooms
+var room_scene
 var type : Enums.RoomType
-var map_pos : Vector2
+var map_pos : Vector2i
 
 var adjacent_rooms = {
 	Enums.Adjacent.UP : false,
@@ -26,17 +26,17 @@ func _process(delta: float) -> void:
 	pass
 
 
-func init(room_type : Enums.RoomType, pos : Vector2):
+func init(room_type : Enums.RoomType, pos : Vector2i):
 	map_pos = pos
 	var room_path : String = Enums.RoomScenDict[room_type]
 	var room = load(room_path)
 	room_scene = room.instantiate()
-	
+	room_scene.tmp = str(room_type)
 	room_scene.global_position.x += (map_pos.x * decallage)
 	room_scene.global_position.y +=  (map_pos.y * decallage)
 
 
-func init_random(pos : Vector2):
+func init_random(pos : Vector2i):
 	init(randi() % Enums.RoomType.size(), pos)
 
 func adjecent_full():
