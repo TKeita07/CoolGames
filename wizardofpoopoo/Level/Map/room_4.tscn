@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://bvdmllubtfocf"]
+[gd_scene load_steps=9 format=4 uid="uid://bvdmllubtfocf"]
 
 [ext_resource type="PackedScene" uid="uid://ctw7kpyih3ku7" path="res://Level/Map/default_room.tscn" id="1_5k8oj"]
 [ext_resource type="Script" path="res://Level/Map/Rooms.gd" id="2_ehg2q"]
 [ext_resource type="Script" path="res://Common/DoorResource.gd" id="3_20a6i"]
+[ext_resource type="PackedScene" uid="uid://84anop7c3jua" path="res://Level/Objects/torch.tscn" id="4_h1um6"]
 
 [sub_resource type="Resource" id="Resource_ohhwo"]
 script = ExtResource("3_20a6i")
@@ -33,3 +34,9 @@ tile_map_data = PackedByteArray("AAAFAAAAAgABAAIAAAAFAAEAAgAAAAYAAAAFAAIAAgAAAAY
 
 [node name="SpawnArea" parent="." index="3"]
 polygon = PackedVector2Array(144, 48, 240, 48, 240, 176, 336, 176, 336, 208, 240, 208, 240, 336, 144, 336, 144, 208, 48, 208, 48, 176, 144, 176)
+
+[node name="Torch" parent="Objects" index="0" instance=ExtResource("4_h1um6")]
+position = Vector2(238, 288)
+
+[node name="Torch2" parent="Objects" index="1" instance=ExtResource("4_h1um6")]
+position = Vector2(146, 96)

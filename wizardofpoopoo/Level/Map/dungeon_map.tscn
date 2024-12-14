@@ -15,3 +15,7 @@ tile_set = ExtResource("2_r4uqc")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_set = ExtResource("2_r4uqc")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+color = Color(0.510601, 0.510601, 0.510601, 1)
+blend_mode = 1

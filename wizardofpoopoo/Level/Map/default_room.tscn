@@ -27,3 +27,5 @@ unique_name_in_owner = true
 visible = false
 color = Color(1, 1, 1, 0.32549)
 polygon = PackedVector2Array(160, 160, 224, 160, 224, 224, 160, 224)
+
+[node name="Objects" type="Node2D" parent="."]

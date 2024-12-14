@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvrb5e363745u"]
+[gd_scene load_steps=9 format=3 uid="uid://cvrb5e363745u"]
 
 [ext_resource type="Script" path="res://Level/Map/Rooms.gd" id="2_jgxjw"]
 [ext_resource type="PackedScene" uid="uid://ctw7kpyih3ku7" path="res://Level/Map/default_room.tscn" id="2_x1pta"]
 [ext_resource type="Script" path="res://Common/DoorResource.gd" id="3_02gpr"]
+[ext_resource type="PackedScene" uid="uid://84anop7c3jua" path="res://Level/Objects/torch.tscn" id="4_kduax"]
 
 [sub_resource type="Resource" id="Resource_7deam"]
 script = ExtResource("3_02gpr")
@@ -30,3 +31,15 @@ doors_pos_array = Array[ExtResource("3_02gpr")]([SubResource("Resource_7deam"), 
 
 [node name="SpawnArea" parent="." index="3"]
 polygon = PackedVector2Array(48, 48, 336, 48, 336, 336, 48, 336)
+
+[node name="Torch" parent="Objects" index="0" instance=ExtResource("4_kduax")]
+position = Vector2(64, 64)
+
+[node name="Torch2" parent="Objects" index="1" instance=ExtResource("4_kduax")]
+position = Vector2(64, 320)
+
+[node name="Torch3" parent="Objects" index="2" instance=ExtResource("4_kduax")]
+position = Vector2(320, 64)
+
+[node name="Torch4" parent="Objects" index="3" instance=ExtResource("4_kduax")]
+position = Vector2(320, 320)
