@@ -2,33 +2,117 @@ extends Node2D
 
 @onready var map_list: Node2D = $MapList
 @onready var tile_map: TileMapLayer = $TileMapLayer
+@onready var tile_map_2: TileMapLayer = $TileMapLayer2
 
+var decallage = 32 * 40
 var room_array = []
+var room_mat = []
 var nbr_rooms = 25
 var ground_atlas = Vector2i(0, 12)
 var wall_atlas = Vector2i(2, 3)
+var temp_atlas = Vector2i(0, 7)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	room_mat.append([])
 	generate_first_room()
 
-	generate_dungeon()
+	#generate_dungeon()
 	room_array[0].room_scene.start_room()
+	
+	generate_dungeonV2()
 
 
 func generate_first_room():
 	var first_room = Aroom.new()
-	first_room.init(0, Vector2i(0,0))
+	first_room.new_init(0)
 	map_list.add_child(first_room.room_scene)
-	
+	var new_center_pos = Vector2i(2, 2) + Vector2i(int(first_room.get_size().x/2), int(first_room.get_size().y/2))
+	first_room.set_center_pos(new_center_pos)
 	first_room.room_scene.initialisation()
 	room_array.append(first_room)
+	updateBackendMap(first_room.get_center_pos(), first_room.get_size())
 
+func updateBackendMap(centerPos : Vector2i, room_size : Vector2i):
+	
+	for i in range(centerPos.x - int(room_size.x/2), centerPos.x + int(room_size.x/2)):
+		for j in range(centerPos.y - int(room_size.y/2), centerPos.y + int(room_size.y/2)):
+
+			tile_map_2.set_cell(Vector2i(i, j), 2, temp_atlas)
+	pass
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_released("H"):
 		generate_dungeon()
 		pass
+
+func get_random_side_8():
+	var random = (randi() % 8)
+	match random:
+		0:  return Vector2i(0,1)
+		1:  return Vector2i(0,-1)
+		2:  return Vector2i(1,0)
+		3:  return Vector2i(-1,0)
+		4:  return Vector2i(1,1)
+		5:  return Vector2i(1,-1)
+		6:  return Vector2i(-1,1)
+		7:  return Vector2i(-1,-1)
+	
+
+func get_random_side_4():
+	var random = (randi() % 4)
+	match random:
+		0:  return Vector2i(0,1)
+		1:  return Vector2i(0,-1)
+		2:  return Vector2i(1,0)
+		3:  return Vector2i(-1,0)
+
+func generate_dungeonV2():
+	var n = 0
+	while n < 25 : 
+		var random_room = room_array.pick_random()
+		var random_side = get_random_side_4()
+		var random_x = random_side.x
+		var random_y = random_side.y
+		var tile_pos = random_room.get_center_pos() 
+		tile_pos += Vector2i(int(random_room.get_size().x/2) * random_x, int(random_room.get_size().y/2) * random_y)
+		tile_pos += Vector2i(random_x, random_y) *4
+		while tile_map_2.get_cell_tile_data(tile_pos) != null:
+			tile_pos += Vector2i(random_x, random_y)
+		
+		#tile_pos -=Vector2i(random_x, random_y) *4
+		var solution_found = false
+		var room_type = -1
+		var new_room
+		for i in range(Enums.RoomType.size()):
+			new_room = Aroom.new()
+			if room_type == -1 :
+				new_room.new_init_random()
+				room_type = new_room.get_room_type()
+			else:
+				new_room.new_init((room_type + i) % Enums.RoomType.size())
+			
+			var new_center_pos = tile_pos +  Vector2i(int(new_room.get_size().x/2) * random_x, int(new_room.get_size().y/2) * random_y)
+			new_center_pos += Vector2i(random_x, random_y) *2
+			#new_center_pos += Vector2i(4*random_x, 4*random_y)
+			new_room.set_center_pos(new_center_pos)
+			if does_room_fit(new_room):
+				#updateBackendMap(new_center_pos, new_room.get_size())
+				#new_room.add_entrance(adj)
+				map_list.add_child(new_room.room_scene)
+				new_room.room_scene.initialisation()
+				room_array.append(new_room)
+				solution_found = true
+				print(new_room.room_scene.tmp)
+				break
+		if solution_found:
+			n += 1
+
+func does_room_fit(new_room):
+	for room in room_array:
+		if new_room._recte.intersects(room._recte):
+			return false
+	return true
 
 
 func generate_dungeon():

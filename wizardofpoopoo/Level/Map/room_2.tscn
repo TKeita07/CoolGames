@@ -27,6 +27,7 @@ _pose = Vector2i(0, 5)
 
 [node name="Room2" instance=ExtResource("1_1gf5r")]
 script = ExtResource("2_lvvtr")
+grid_size = Vector2i(12, 12)
 doors_pos_array = Array[ExtResource("3_hd03a")]([SubResource("Resource_l5t5s"), SubResource("Resource_2jqdc"), SubResource("Resource_okwux"), SubResource("Resource_j8np6")])
 
 [node name="RoomTiles" parent="TileMaps" index="1"]

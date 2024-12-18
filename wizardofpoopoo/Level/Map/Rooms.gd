@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var grid_size : Vector2i = Vector2i(16,16)
 @export var doors_pos_array : Array[DoorResource]
 
  #[
@@ -24,7 +25,6 @@ var room_cleared : bool = false
 var enemy_nbr = 4
 
 var map_pos : Vector2i = Vector2i(0, 0)
-var grid_size : Vector2i = Vector2i(12, 12)
 var tile_size : int = 32
 var center_pos : Vector2i = Vector2i(int(grid_size.x/2), int(grid_size.y/2)) * tile_size
 
@@ -44,8 +44,8 @@ func _process(delta: float) -> void:
 		
 func initialisation():
 	player_cam = get_tree().get_nodes_in_group("PlayerCam")[0] 
-	global_position.x = global_position.x + (4*32)
-	global_position.y = global_position.y + (4*32)
+	#global_position.x = global_position.x
+	#global_position.y = global_position.y 
 	
 	spawn_enemies()
 	#room_cam.global_position = center_pos + Vector2(4*32,4*32)

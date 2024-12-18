@@ -17,8 +17,8 @@ enum INPUT_SCHEME {KBM, GAMEPAD}
 var current_input_scheme : INPUT_SCHEME = INPUT_SCHEME.KBM
 
 func _ready() -> void:
-	global_position.x = 32*10
-	global_position.y = 32*10
+	global_position.x = 10*32
+	global_position.y = 10*32
 	pass
 
 func change_camera():
